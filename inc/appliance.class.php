@@ -40,7 +40,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginAppliancesAppliance extends CommonDBTM {
 
    static $types = array('Computer', 'Monitor', 'NetworkEquipment', 'Peripheral', 'Phone',
-                         'Printer', 'Software');
+                         'Printer', 'Software','PluginAppliancesAppliance');
 
    public $dohistory     = true;
    static $rightname     = "plugin_appliances";
@@ -533,6 +533,14 @@ class PluginAppliancesAppliance extends CommonDBTM {
    static function getTypes($all=false) {
 
       if ($all) {
+
+        $types = self::$types;
+
+        $plugin = new Plugin();
+        if (!$plugin->isActivated('webapplications'){
+          $types[] = 'PluginWebapplicationsWebapplication';
+        }
+
          return self::$types;
       }
 
